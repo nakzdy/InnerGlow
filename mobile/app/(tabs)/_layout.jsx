@@ -29,20 +29,38 @@ export default function TabLayout() {
       }}
       />
       <Tabs.Screen
-      name="InnerGlow"
+      name="search"
       options={{
-        title: "InnerGlow",
+        title: "search",
         tabBarIcon: ({ color, size}) => (
-          <Ionicons name="star-outline" size={size} color={color} />
+          <Ionicons name="search-outline" size={size} color={color} />
         ),
       }}
       />
       <Tabs.Screen
-      name="settings"
+      name="create"
       options={{
-        title: "settings",
+        title: "create",
         tabBarIcon: ({ color, size}) => (
-          <Ionicons name="settings-outline" size={size} color={color} />
+          <Ionicons name="add-outline" size={size} color={color} />
+        ),
+      }}
+      />
+      <Tabs.Screen
+      name="messages"
+      options={{
+        title: "messages",
+        tabBarIcon: ({ color, size}) => (
+          <Ionicons name="chatbubble-ellipses-outline" size={size} color={color} />
+        ),
+      }}
+      />
+      <Tabs.Screen
+      name="profile"
+      options={{
+        title: "profile",
+        tabBarIcon: ({ color, size}) => (
+          <Ionicons name="person-outline" size={size} color={color} />
         ),
       }}
       />
