@@ -1,58 +1,121 @@
-import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity } from 'react-native'
-import { Link } from 'expo-router' 
-import React from 'react'
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity, KeyboardAvoidingView, ScrollView, Platform } from 'react-native';
+import { useRouter } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 
-const index = () => {
+const SignUp = () => {
+  const [activeButton, setActiveButton] = useState('signup');
+  const router = useRouter();
+
+  const handleLogin = () => {
+    setActiveButton('login');
+    router.push('./'); // Navigates back to the index.jsx (login screen)
+  };
+
+  const handleSignUp = () => {
+    setActiveButton('signup');
+  };
+
+  const handleFinalSignUp = () => {
+    router.replace('/(tabs)/home'); // Navigate to the home screen after signup
+  };
+
   return (
-    <View style={styles.container}>
-      <View style={styles.topImageContainer}>
-        <Image
-          source={require("../assets/images/logo.png")}
-          style={styles.logo}
-        />
-        <Text style={styles.topText}>Your glow starts here!</Text>
-      </View>
-    
-      <View style={styles.container2}>
-      <View style={styles.pinkRectangle} />
-      <View style={styles.roundedRectangle} />
-    </View>
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1 }}
+        keyboardShouldPersistTaps="handled"
+      >
+        <View style={styles.container}>
 
-      <View style={styles.email}>
-        <TextInput
-          placeholder="Username or Email"
-          keyboardType='email-address'
-        />
-      </View> 
+          <View style={styles.topImageContainer}>
+            <Image
+              source={require('../assets/images/logo.png')}
+              style={styles.logo}
+            />
+            <Text style={styles.topText}>Sign up to explore about our app</Text>
+          </View>
 
-      <View style={styles.pass}>
-        <TextInput
-          placeholder="Password"
-          keyboardType='password'
-        />
-      </View> 
+          <View style={styles.container2}>
+            <View style={styles.pinkRectangle} />
+            <View style={styles.roundedRectangle} />
+          </View>
 
-      <View style={styles.pass}>
-        <TextInput
-          placeholder="Confirm Password"
-          keyboardType='password'
-        />
-      </View> 
+          <View style={styles.container3}>
+            <View style={styles.buttonWrapper}>
+              <View
+                style={[
+                  styles.loginRectangle,
+                  activeButton === 'login' && styles.slideLeft,
+                ]}
+              />
 
-      <TouchableOpacity style={styles.button}>
-        <Text>Sign Up</Text>
-      </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.touchable}
+                onPress={handleLogin}
+              >
+                <Text
+                  style={[
+                    styles.buttonText,
+                    activeButton === 'login' ? styles.activeText : styles.inactiveText,
+                  ]}
+                >
+                  Log in
+                </Text>
+              </TouchableOpacity>
 
-      <Text style= {styles.footer}>
-        Already have an account?{" "}
-        <Link href="/" style={styles.link}>
-          Log In
-        </Link>
-      </Text>
+              <TouchableOpacity
+                style={styles.touchable}
+                onPress={handleSignUp}
+              >
+                <Text
+                  style={[
+                    styles.buttonText,
+                    activeButton === 'signup' ? styles.activeText : styles.inactiveText,
+                  ]}
+                >
+                  Sign up
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
 
-    </View>
-  )
-}
+          <View style={[styles.inputContainer, { marginTop: 30}]}>
+            <TextInput
+              placeholder="Full Name"
+              keyboardType="default"
+              style={styles.textInput}
+            />
+          </View>
+
+          <View style={styles.inputContainer}>
+            <TextInput
+              placeholder="Username or Email"
+              keyboardType="email-address"
+              style={styles.textInput}
+            />
+          </View>
+
+          <View style={styles.inputContainer}>
+            <TextInput
+              placeholder="Password"
+              keyboardType="default"
+              secureTextEntry={true}
+              style={styles.textInput}
+            />
+          </View>
+
+          <TouchableOpacity onPress={handleFinalSignUp} style={styles.button}>
+            <Text style={{ fontWeight: 'bold', fontSize: 16 }}>Sign up</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -65,12 +128,14 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 350,
     borderBottomLeftRadius: 60,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
   },
 
   logo: {
-    width: "85%",
-    height: 275,
-    alignSelf: 'center',
+    width: '100%',
+    height: 300,
+    resizeMode: 'contain',
     marginTop: 60,
   },
 
@@ -78,15 +143,11 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 300,
     fontSize: 18,
-    alignSelf: 'center',
     color: '#D14D72',
     zIndex: 1,
   },
 
-  container2: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
+  container2: {},
 
   pinkRectangle: {
     position: 'absolute',
@@ -101,65 +162,106 @@ const styles = StyleSheet.create({
     right: 0,
     width: 117,
     height: 75,
-    backgroundColor: '#ffff',
+    backgroundColor: '#fff',
     borderTopRightRadius: 60,
   },
 
-  email: {
-    marginTop: 100,
-    backgroundColor: '#ffff',
-    borderRadius: 40,
-    shadowColor: "#000",
-    shadowRadius: 3.84,
-    elevation: 5,
-    paddingHorizontal: 10,
-    paddingVertical: 10,
-    width: '90%',
-    bottom: 50,
-    alignSelf: 'center',
-    position: 'relative',
+  container3: {
+    marginTop: 10,
+    width: '100%',
+    alignItems: 'center',
   },
 
-  pass: {
+  buttonWrapper: {
+    flexDirection: 'row',
+    width: '90%',
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: '#FEF2F4',
+    overflow: 'hidden',
     marginTop: 20,
-    backgroundColor: '#ffff',
+  },
+
+  loginRectangle: {
+    position: 'absolute',
+    width: '50%',
+    height: '100%',
+    borderRadius: 25,
+    backgroundColor: '#FCC8D1',
+    left: '50%', 
+  },
+
+  slideLeft: {
+    transform: [{ translateX: '-100%' }], 
+  },
+
+  touchable: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  buttonText: {
+    fontWeight: 'bold',
+    fontSize: 20,
+  },
+
+  activeText: {
+    color: 'black',
+  },
+
+  inactiveText: {
+    color: '#fcc8d1',
+  },
+
+  inputContainer: {
+    alignSelf: 'center',
+    width: '90%',
+    height: 60,
+    backgroundColor: '#fff',
     borderRadius: 40,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowRadius: 3.84,
     elevation: 5,
     paddingHorizontal: 20,
-    paddingVertical: 10,
-    width: '90%',
-    bottom: 50,
-    alignSelf: 'center',
+    justifyContent: 'center',
+    marginVertical: 10, 
+  },
+
+  textInput: {
+    fontSize: 16,
   },
 
   button: {
-    marginTop: 40,
+    marginTop: 20,
     backgroundColor: '#FCC8D1',
     borderRadius: 40,
-    shadowColor: "#000",
     shadowRadius: 3.84,
     elevation: 5,
-    paddingHorizontal: 20,
     paddingVertical: 15,
     width: '40%',
-    bottom: 50,
     alignSelf: 'center',
     alignItems: 'center',
   },
 
-  footer: {
-    bottom: 50,
-    footSize: 14,
-    alignSelf: 'center',
+  orText: {
+    textAlign: 'center',
+    marginTop: 15,
+    marginBottom: 5,
+    color: '#000',
+    fontSize: 16,
+  },
+
+  iconRow: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
     marginTop: 20,
   },
 
-  link: {
-    color: '#FCC8D1',
-    fontWeight: 'bold',
+  iconContainer: {
+    marginHorizontal: 10,
   }
-})
+});
 
-export default index;
+export default SignUp;
