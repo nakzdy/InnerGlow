@@ -17,7 +17,13 @@ export default function TabLayout() {
       tabBarLabelStyle: {
         fontSize: 12,
         fontWeight: "600",
-      }
+      },
+      tabBarButton: (props) => (
+        <Pressable 
+          {...props}
+          android_ripple={null}
+          />
+      ),
     }}
     >
       <Tabs.Screen
